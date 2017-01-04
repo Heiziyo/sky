@@ -9,3 +9,17 @@
 class DuwenzhangPipeline(object):
     def process_item(self, item, spider):
         return item
+
+from scrapy import signals
+import json
+import codecs
+class JsonWithEncodingDuwenzhangPipeline(object):
+    def __init__(self):
+        self.file = codecs.open('Duwenzhang.json', 'w', encoding='utf-8')
+    def process_item(self, item, spider):
+        line = json.dumps(dict(item), ensure_ascii=False) + "\n\r"
+        self.file.write(line)
+        return item
+    def spider_closed(self, spider):
+        self.file.close(
+)
